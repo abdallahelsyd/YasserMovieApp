@@ -10,11 +10,7 @@ import retrofit2.http.Query
  */
 interface MoviesAPI {
 
-    companion object{
-        const val PARAM_MOVIE_ID="movieId"
-
-    }
-    @GET("3/movie/now_playing")
+    @GET("3/discover/movie")
     suspend fun getMovies(
         @Query("perPage") perPage:Int,
         @Query("page") page:Int,

@@ -27,14 +27,14 @@ android {
             isDebuggable=true
             buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/\"")
             buildConfigField("String", "IMAGE_BASE_URL", "\"https://image.tmdb.org/t/p/w500\"")
-            buildConfigField("String", "SECRET_KEY", "\"ebea8cfca72fdff8d2624ad7bbf78e4c\"")
+            buildConfigField("String", "SECRET_KEY", "\"c9856d0cb57c3f14bf75bdc6c063b8f3\"")
 
         }
         release {
             isMinifyEnabled = false
-            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/\"")
             buildConfigField("String", "IMAGE_BASE_URL", "\"https://image.tmdb.org/t/p/w500\"")
-            buildConfigField("String", "SECRET_KEY", "\"ebea8cfca72fdff8d2624ad7bbf78e4c\"")
+            buildConfigField("String", "SECRET_KEY", "\"c9856d0cb57c3f14bf75bdc6c063b8f3\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -75,6 +75,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -133,6 +134,8 @@ dependencies {
     val hiltVersion="2.47"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    kapt ("androidx.hilt:hilt-compiler:1.0.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     //coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
@@ -142,7 +145,7 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxjava:3.1.5")
 
     //coil
-    implementation("io.coil-kt:coil:2.3.0")
+    implementation ("com.google.accompanist:accompanist-coil:0.15.0")
 
 
     //Paging 3.0

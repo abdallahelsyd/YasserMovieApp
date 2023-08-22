@@ -7,7 +7,6 @@ package com.example.yassermovieapp.domain.models
 data class MovieResponse(
     val adult: Boolean,
     val backdrop_path: String,
-    val belongs_to_collection: Any,
     val budget: Int,
     val genres: List<Genre>,
     val homepage: String,

@@ -16,8 +16,8 @@ class MovieRepositoryImp @Inject constructor(
         return moviesApi.getMovies(10,1,BuildConfig.SECRET_KEY)
     }
 
-    override suspend fun getMovieById(movieID:String): MovieResponse {
-        return moviesApi.getMovieById(movieID,BuildConfig.SECRET_KEY)
+    override suspend fun getMovieById(movieId:String): MovieResponse {
+        return moviesApi.getMovieById(movieId,BuildConfig.SECRET_KEY)
     }
 
 }
