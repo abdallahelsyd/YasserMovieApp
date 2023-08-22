@@ -23,8 +23,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            isDebuggable=true
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/\"")
+            buildConfigField("String", "IMAGE_BASE_URL", "\"https://image.tmdb.org/t/p/w500\"")
+            buildConfigField("String", "SECRET_KEY", "\"ebea8cfca72fdff8d2624ad7bbf78e4c\"")
+
+        }
         release {
             isMinifyEnabled = false
+            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+            buildConfigField("String", "IMAGE_BASE_URL", "\"https://image.tmdb.org/t/p/w500\"")
+            buildConfigField("String", "SECRET_KEY", "\"ebea8cfca72fdff8d2624ad7bbf78e4c\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -40,6 +50,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     composeOptions {
@@ -132,4 +143,8 @@ dependencies {
 
     //coil
     implementation("io.coil-kt:coil:2.3.0")
+
+
+    //Paging 3.0
+    implementation ("androidx.paging:paging-compose:3.2.0")
 }
