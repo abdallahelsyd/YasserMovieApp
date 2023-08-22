@@ -41,6 +41,7 @@ android {
     buildFeatures {
         compose = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
     }
@@ -50,7 +51,9 @@ android {
         }
     }
 }
-
+kapt {
+    correctErrorTypes = true
+}
 dependencies {
 
     implementation("androidx.core:core-ktx:1.10.1")
@@ -116,7 +119,7 @@ dependencies {
     implementation( "com.airbnb.android:lottie:3.4.0")
 
     //dependency injection
-    val hiltVersion="2.47.0"
+    val hiltVersion="2.47"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
