@@ -10,6 +10,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.example.yassermovieapp.common.Resource
 import com.example.yassermovieapp.data.remote.MoviesAPI
+import com.example.yassermovieapp.di.ContextProvider
 import com.example.yassermovieapp.domain.repository.MoviesPagingSource
 import com.example.yassermovieapp.domain.useCases.getMovie.GetMovieUseCase
 import com.example.yassermovieapp.domain.useCases.getMovies.GetMoviesUseCase
@@ -18,6 +19,7 @@ import com.example.yassermovieapp.presentation.movieList.MoviesListViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -25,6 +27,7 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val getMoviesUseCase: GetMoviesUseCase,
     private val getMovieUseCase: GetMovieUseCase,
+    private val contextProvider: ContextProvider,
     api: MoviesAPI
 ):ViewModel() {
 
@@ -41,21 +44,27 @@ class MoviesViewModel @Inject constructor(
     }.flow.cachedIn(viewModelScope)
 
     private fun getMovies(){
-        getMoviesUseCase().onEach {
-            when(it){
-                is Resource.Error -> {
-                    _state.value= MoviesListViewState(error = it.message?:"An unexpected error occored")
+        viewModelScope.launch(contextProvider.Main) {
+            getMoviesUseCase().onEach {
+                when (it) {
+                    is Resource.Error -> {
+                        _state.value =
+                            MoviesListViewState(error = it.message ?: "An unexpected error occored")
 
-                }
-                is Resource.Loading -> {
-                    _state.value= MoviesListViewState(isLoading = true)
-                }
-                is Resource.Success -> {
-                    _state.value= MoviesListViewState(movies = it.data!!.flow.cachedIn(viewModelScope))
+                    }
 
+                    is Resource.Loading -> {
+                        _state.value = MoviesListViewState(isLoading = true)
+                    }
+
+                    is Resource.Success -> {
+                        _state.value =
+                            MoviesListViewState(movies = it.data!!.flow.cachedIn(viewModelScope))
+
+                    }
                 }
-            }
-        }.launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
+        }
     }
 
 
@@ -67,20 +76,25 @@ class MoviesViewModel @Inject constructor(
         getMovie(id)
     }
     private fun getMovie(movieId:String){
-        getMovieUseCase(movieId).onEach {
-            when(it){
-                is Resource.Error -> {
-                    _detailState.value= MoviesDetailsViewState(error = it.message?:"An unexpected error occored")
+        viewModelScope.launch(contextProvider.Main) {
+            getMovieUseCase(movieId).onEach {
+                when (it) {
+                    is Resource.Error -> {
+                        _detailState.value = MoviesDetailsViewState(
+                            error = it.message ?: "An unexpected error occored"
+                        )
 
-                }
-                is Resource.Loading -> {
-                    _detailState.value= MoviesDetailsViewState(isLoading = true)
-                }
-                is Resource.Success -> {
-                    _detailState.value= MoviesDetailsViewState(movie = it.data)
+                    }
 
+                    is Resource.Loading -> {
+                        _detailState.value = MoviesDetailsViewState(isLoading = true)
+                    }
+
+                    is Resource.Success -> {
+                        _detailState.value = MoviesDetailsViewState(movie = it.data)
+                    }
                 }
-            }
-        }.launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
+        }
     }
 }
